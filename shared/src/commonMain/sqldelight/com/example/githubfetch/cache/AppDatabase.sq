@@ -1,0 +1,48 @@
+CREATE TABLE user (
+id INTEGER NOT NULL PRIMARY KEY,
+userName TEXT NOT NULL,
+avatarUrl TEXT NOT NULL,
+repoCount INTEGER DEFAULT 0
+);
+
+selectByUserName:
+SELECT * FROM user WHERE userName LIKE ?;
+
+insert:
+INSERT OR REPLACE INTO user (id, userName, avatarUrl)
+VALUES (?, ?, ?);
+
+updateRepoCount:
+UPDATE user
+SET repoCount = ?
+WHERE id = ?;
+
+deleteOldest:
+DELETE FROM user WHERE id NOT IN (
+SELECT id FROM user ORDER BY id DESC LIMIT 500
+);
+
+CREATE TABLE recent_search_queries (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    query TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
+);
+
+insertRecentSearchQuery:
+INSERT INTO recent_search_queries (query, timestamp)
+VALUES (?, ?);
+
+selectRecentSearchQueries:
+SELECT query, timestamp
+FROM recent_search_queries
+ORDER BY timestamp DESC
+LIMIT 10;
+
+deleteOldQueries:
+DELETE FROM recent_search_queries
+WHERE id NOT IN (
+    SELECT id
+    FROM recent_search_queries
+    ORDER BY timestamp DESC
+    LIMIT 5
+);
