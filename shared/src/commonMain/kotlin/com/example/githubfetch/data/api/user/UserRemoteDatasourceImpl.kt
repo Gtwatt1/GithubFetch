@@ -23,7 +23,7 @@ class UserRemoteDatasourceImpl(
             withContext(context) {
                 val response: T = client.get(path){
                     headers {
-                        append("Authorization", "Bearer ")
+//                        append("Authorization", "Bearer ")
                     }
                 }.body()
                 response
