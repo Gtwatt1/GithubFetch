@@ -23,6 +23,7 @@ class UserRemoteDatasourceImpl(
             withContext(context) {
                 val response: T = client.get(path){
                     headers {
+                        // you can add your own api key here for better performance 
 //                        append("Authorization", "Bearer ")
                     }
                 }.body()
